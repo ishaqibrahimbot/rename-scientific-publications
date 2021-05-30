@@ -24,6 +24,6 @@ Let's break this down into smaller challenges:
 5- Make an HTML template with CSS styling for the page where a user can upload pdfs
 6- Make an HTML template with CSS styling for the page where they will download
 7- Figure out how to allow users to download something from the front-end
-8- Use the grobid client inside the rename script (i.e. have an end-to-end script that takes pdfs and renames them)
+8- (DONE)Use the grobid client inside the rename script (i.e. have an end-to-end script that takes pdfs and renames them)
 
 That sounds good. Let's start tackling each of these challenges.

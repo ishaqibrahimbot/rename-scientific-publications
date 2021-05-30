@@ -3,6 +3,10 @@ import os
 import glob
 import re
 from getYear import get_year
+from grobid_client.grobid_client import GrobidClient
+
+client = GrobidClient(config_path="./grobid_client_python/config.json")
+client.process("processFulltextDocument", "pdfs", output="processed_pdfs", verbose=True, n=5)
 
 processed_pdfs_folder = "processed_pdfs"
 pdfs_folder = "pdfs"

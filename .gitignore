@@ -1,2 +1,5 @@
 wget
+tmp_pdfs
+processed_pdfs
+pdfs
 grobid_client_python

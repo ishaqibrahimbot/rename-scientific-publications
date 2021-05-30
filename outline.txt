@@ -18,7 +18,7 @@ At the backend:
 
 Let's break this down into smaller challenges:
 1- Take a downloaded pdf and figure out how to use Grobid to extract its title and year of publication
-2- Figure out how to rename a file in python once you have the new filename decided (should be fairly easy)
+2- (DONE)Figure out how to rename a file in python once you have the new filename decided (should be fairly easy)
 3- Figure out how to handle files at the backend (will I need to use a database?)
 4- Figure out how to zip a file and send it back to the front end
 5- Make an HTML template with CSS styling for the page where a user can upload pdfs

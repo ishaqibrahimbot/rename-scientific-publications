@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Generating Knowledge Graphs from Scientific Literature of Degenerative Diseases</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName><forename type="first">Anderson</forename><surname>Rossanez</surname></persName>
+							<email>anderson.rossanez@ic.unicamp.br</email>
+							<affiliation key="aff0">
+								<orgName type="department">Institute of Computing</orgName>
+								<orgName type="institution">University of Campinas</orgName>
+								<address>
+									<settlement>Campinas -SP</settlement>
+									<country key="BR">Brazil</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Julio</forename><surname>Cesar</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Institute of Computing</orgName>
+								<orgName type="institution">University of Campinas</orgName>
+								<address>
+									<settlement>Campinas -SP</settlement>
+									<country key="BR">Brazil</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><surname>Reis</surname></persName>
+							<email>jreis@ic.unicamp.br</email>
+							<affiliation key="aff0">
+								<orgName type="department">Institute of Computing</orgName>
+								<orgName type="institution">University of Campinas</orgName>
+								<address>
+									<settlement>Campinas -SP</settlement>
+									<country key="BR">Brazil</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Generating Knowledge Graphs from Scientific Literature of Degenerative Diseases</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.6.2" ident="GROBID" when="2021-05-30T10:37+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<textClass>
+				<keywords>
+					<term>Knowledge Graphs</term>
+					<term>RDF triples</term>
+					<term>Ontologies</term>
+					<term>Information Extraction</term>
+				</keywords>
+			</textClass>
+			<abstract>
+				<p>Degenerative diseases, such as the Alzheimer&apos;s Disease, can be very serious and life-threatening. As the scientific community strives to fully understand their exact root causes and advance their research on the domain, a massive amount of knowledge is generated. To represent and link all this knowledge, we propose the generation of knowledge graphs from the scientific literature. We aim to provide researchers the ability to relate their new discoveries with the current knowledge and possibly formulate new hypotheses to further advance the research. In this paper, we describe a method to extract information from scientific literature for generating a knowledge graph reusing existing domain ontologies. We demonstrate the effectiveness of our method by generating knowledge graphs from a set of abstracts of scientific papers on Alzheimer&apos;s Disease.</p>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+	</text>
+</TEI>

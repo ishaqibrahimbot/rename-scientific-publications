@@ -1,9 +1,12 @@
 import os
-from flask import Flask, flash, request, redirect, url_for, render_template, send_from_directory
+import glob
+from flask import Flask, flash, request, redirect, url_for, render_template, send_from_directory, send_file
 from werkzeug.utils import secure_filename
+from zipfile import ZipFile
 
 UPLOAD_FOLDER = "pdfs"
 ALLOWED_EXTENSIONS = {'pdf'}
+ZIP_FILE_NAME = "tmp.zip"
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -19,16 +22,25 @@ def upload_file():
 			flash('No file part')
 			return redirect(request.url)
 
-		file = request.files['file']
+		files = request.files.getlist("file")
 
-		if file.filename == '':
-			flash("No selected file")
-			return redirect(request.url)
+		for file in files:
+			if file.filename == '':
+				flash("No selected file")
+				return redirect(request.url)
 
-		if file and allowed_file(file.filename):
-			filename = secure_filename(file.filename)
-			file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-			return redirect(url_for('uploaded_file', filename=filename))
+			if file and allowed_file(file.filename):
+				filename = secure_filename(file.filename)
+				file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
+		processed_files = glob.glob(os.path.join(UPLOAD_FOLDER, "*.pdf"))
+
+		with ZipFile(ZIP_FILE_NAME, "w") as zip_file:
+			for file in processed_files:
+				zip_file.write(file)
+
+		return send_file(ZIP_FILE_NAME, as_attachment=True)		
+		
 
 	return render_template('upload_page.html')
 

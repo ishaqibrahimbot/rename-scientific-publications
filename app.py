@@ -3,6 +3,8 @@ import glob
 from flask import Flask, flash, request, redirect, url_for, render_template, send_from_directory, send_file
 from werkzeug.utils import secure_filename
 from zipfile import ZipFile
+import rename_pdf
+from rename_pdf import process_pdfs, get_title, rename_pdfs
 
 UPLOAD_FOLDER = "pdfs"
 ALLOWED_EXTENSIONS = {'pdf'}
@@ -33,6 +35,9 @@ def upload_file():
 				filename = secure_filename(file.filename)
 				file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
+		process_pdfs(UPLOAD_FOLDER)
+		rename_pdfs(UPLOAD_FOLDER)
+		
 		processed_files = glob.glob(os.path.join(UPLOAD_FOLDER, "*.pdf"))
 
 		with ZipFile(ZIP_FILE_NAME, "w") as zip_file:

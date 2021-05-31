@@ -26,8 +26,15 @@ Let's break this down into smaller challenges:
 7- (DONE)Figure out how to allow users to download something from the front-end
 8- (DONE)Use the grobid client inside the rename script (i.e. have an end-to-end script that takes pdfs and renames them)
 9- (DONE)Figure out how to receive and handle multiple files at the backend
-10- Merge the grobid processing functionality with the uploads functionality
+10-(DONE) Merge the grobid processing functionality with the uploads functionality
+11- Add a little puzzle game that the user can play while the processing takes place at the backend
 
 Once this app is running properly on my local computer, I will then have to figure out how to deploy this to heroku.
 
 That sounds good. Let's start tackling each of these challenges.
+
+(NOTE: Here are some problems I need to find solutions for)
+
+- How large a file do I want to allow users to upload?
+- How do I deal with the slow start-up? (Let's try keeping n=1 for the first try and switching it to a higher value for the next ones) (or just work with n=1) (Ask on the grobid issues section)
+- How can I upload this to heroku or aws

@@ -1,0 +1,50 @@
+body {
+	background-color: #DBE6FD;
+	text-align: center;
+}
+
+.container {
+	width: 60%;
+}
+
+.navbar {
+	background-color: #293b5f;
+}
+
+.navbar-nav {
+	margin-left: auto!important;
+	margin-right: 20px;
+}
+
+.navbar-brand {
+	margin-left: 30px;
+}
+
+.nav-item {
+	margin: auto 10px;
+}
+
+.instructions {
+	margin-top: 40px;
+}
+
+.instr-1 {
+	font-size: 1.5rem;
+}
+
+.instr-2 {
+	font-size: 1.25rem;
+}
+
+.file-upload {
+	margin: auto;
+	margin-top: 50px;
+	margin-bottom: 50px;
+}
+
+
+.btn {
+	background-color: #47597e;
+	color: white;
+	margin: auto;
+}

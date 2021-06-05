@@ -1,5 +1,7 @@
 wget
-tmp_pdfs
-processed_pdfs
-pdfs
+tmp_pdfs/
+processed_pdfs/
+pdfs/
 grobid_client_python
+tmp.zip
+__pycache__/

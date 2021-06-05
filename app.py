@@ -6,55 +6,63 @@ from zipfile import ZipFile
 import rename_pdf
 from rename_pdf import process_pdfs, get_title, rename_pdfs
 
+#Define folder and file paths
 UPLOAD_FOLDER = "pdfs"
 ALLOWED_EXTENSIONS = {'pdf'}
 ZIP_FILE_NAME = "tmp.zip"
 
+
+#Initialize Flask app and set upload folder path
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
+#Function to check if uploaded file is a PDF
 def allowed_file(filename):
 	return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-
+#Root route methods for uploading, renaming, and downloading files
 @app.route("/", methods=['GET', 'POST'])
 def upload_file():
 	if request.method == 'POST':
+
+		#Make sure files are uploaded
 		if 'file' not in request.files:
 			flash('No file part')
 			return redirect(request.url)
 
+		#Obtain list of uploaded files
 		files = request.files.getlist("file")
 
+
 		for file in files:
+			#If there is an empty name file or a bunch of weird stuff in the uploads, tell the user
 			if file.filename == '':
 				flash("No selected file")
 				return redirect(request.url)
 
+			#Make the filename secure using the secure_filename function
 			if file and allowed_file(file.filename):
 				filename = secure_filename(file.filename)
-				file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+				file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename)) #Save the file
 
-		process_pdfs(UPLOAD_FOLDER)
-		rename_pdfs(UPLOAD_FOLDER)
+
+		process_pdfs(UPLOAD_FOLDER) #Process the pdfs using Grobid
+		rename_pdfs(UPLOAD_FOLDER) #Rename by extracting the title and date from xml files
 		
 		processed_files = glob.glob(os.path.join(UPLOAD_FOLDER, "*.pdf"))
 
+		#Package all pdfs into a single zip file
 		with ZipFile(ZIP_FILE_NAME, "w") as zip_file:
 			for file in processed_files:
 				zip_file.write(file)
 
+		#Send zip file to user for downloading
 		return send_file(ZIP_FILE_NAME, as_attachment=True)		
 		
-
+	#If method isn't POST, just render the default homepage
 	return render_template('upload_page.html')
 
 
-@app.route("/uploads/<filename>")
-def uploaded_file(filename):
-	return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
-
-
-
+#Run the app
 if __name__ == '__main__':
 	app.run(debug=True)

@@ -21,8 +21,8 @@ Let's break this down into smaller challenges:
 2- (DONE)Figure out how to rename a file in python once you have the new filename decided (should be fairly easy)
 3- (DONE)Figure out how to handle a file at the backend (will I need to use a database?)
 4- (DONE)Figure out how to zip a file and send it back to the front end
-5- Make an HTML template with CSS styling for the page where a user can upload pdfs
-6- Make an HTML template with CSS styling for the page where they will download
+5- (DONE)Make an HTML template with CSS styling for the page where a user can upload pdfs
+6- (NOT NEEDED)Make an HTML template with CSS styling for the page where they will download
 7- (DONE)Figure out how to allow users to download something from the front-end
 8- (DONE)Use the grobid client inside the rename script (i.e. have an end-to-end script that takes pdfs and renames them)
 9- (DONE)Figure out how to receive and handle multiple files at the backend
@@ -38,3 +38,9 @@ That sounds good. Let's start tackling each of these challenges.
 - How large a file do I want to allow users to upload?
 - How do I deal with the slow start-up? (Let's try keeping n=1 for the first try and switching it to a higher value for the next ones) (or just work with n=1) (Ask on the grobid issues section)
 - How can I upload this to heroku or aws
+- Consider the difference in time between processing the full text and processing just the header. Also, here's a trick, instead of giving in the full pdf, just take the first page. How about that?
+
+Ideas:
+1) Process just the header and rename with the title
+2) Check out the other services and see what info you get via them
+3) Truncate the pdf to just one page and process that only

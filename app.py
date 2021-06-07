@@ -1,4 +1,4 @@
-import os
+import os, shutil
 import glob
 from flask import Flask, flash, request, redirect, url_for, render_template, send_from_directory, send_file
 from werkzeug.utils import secure_filename
@@ -6,11 +6,23 @@ from zipfile import ZipFile
 import rename_pdf
 from rename_pdf import process_pdfs, get_title, rename_pdfs
 
-#Define folder and file paths
+def setup_folder(FOLDER_PATH):
+    if os.path.exists(FOLDER_PATH):
+        shutil.rmtree(FOLDER_PATH)
+        os.mkdir(FOLDER_PATH)
+    else:
+        os.mkdir(FOLDER_PATH)
+
+
+#Define paths
 UPLOAD_FOLDER = "pdfs"
+XML_FOLDER = "processed_pdfs"
 ALLOWED_EXTENSIONS = {'pdf'}
 ZIP_FILE_NAME = "tmp.zip"
 
+#Initialize folders
+setup_folder(UPLOAD_FOLDER)
+setup_folder(XML_FOLDER)
 
 #Initialize Flask app and set upload folder path
 app = Flask(__name__)
@@ -33,7 +45,6 @@ def upload_file():
 		#Obtain list of uploaded files
 		files = request.files.getlist("file")
 
-
 		for file in files:
 			#If there is an empty name file or a bunch of weird stuff in the uploads, tell the user
 			if file.filename == '':
@@ -45,7 +56,7 @@ def upload_file():
 				filename = secure_filename(file.filename)
 				file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename)) #Save the file
 
-
+		print("Made it till here!")
 		process_pdfs(UPLOAD_FOLDER) #Process the pdfs using Grobid
 		rename_pdfs(UPLOAD_FOLDER) #Rename by extracting the title and date from xml files
 		
@@ -57,7 +68,9 @@ def upload_file():
 				zip_file.write(file)
 
 		#Send zip file to user for downloading
-		return send_file(ZIP_FILE_NAME, as_attachment=True)		
+		return send_file(ZIP_FILE_NAME, as_attachment=True)
+
+	print("Loading the default page!")		
 		
 	#If method isn't POST, just render the default homepage
 	return render_template('upload_page.html')
@@ -65,4 +78,4 @@ def upload_file():
 
 #Run the app
 if __name__ == '__main__':
-	app.run(debug=True)
+	app.run(debug=True, host="0.0.0.0")

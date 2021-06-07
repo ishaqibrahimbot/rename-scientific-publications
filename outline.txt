@@ -44,3 +44,19 @@ Ideas:
 1) Process just the header and rename with the title
 2) Check out the other services and see what info you get via them
 3) Truncate the pdf to just one page and process that only
+
+<-Update on Jun 7 at 23:07->
+
+So after a lot of troubleshooting and endless searching around, I have managed to containerize my application completely. I managed to make an image out of just the front end of my app, and then also managed to use docker-compose to run the 2 containers simultaneously, i.e. the grobid server and my own image. Should definitely document all my learnings somewhere and brainstorm about that. But now we face a new frontier: heroku does not support docker-compose style deployment. With heroku, you can either deploy a single container or deploy a single container with other "add-ons" from Heroku. So I guess no more heroku for me.
+
+Now I've been able to identify and think of some solutions. Here are these:
+
+- Can I package the entire thing into just one docker image? I highly doubt this because the servicess need different servers to run on.
+- I just saw an example that uses AWS Elastic Beanstalk to deploy a docker-compose style app with multiple containers. I could go in that direction but will need a lot of research for that.
+- I could use Kubernetes. From what I've read that maybe a solution for running multi-container apps so I should now also check that out.
+
+In short, I need to start digging into "deploying multi-container apps to Elastic beanstalk" and "How to use kubernetes to deploy multi-container apps".
+
+So while I read up on this, I should also work on fixing some of the problems listed above about the slow processing, and a new problem I saw: The pdf folder is not being emptied. Something ain't going right there and I need to figure that out.
+
+Also, I need to compromise the date information in favor of speed cause ain't nobody gonna wait for that long.

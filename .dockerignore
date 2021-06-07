@@ -1,0 +1,5 @@
+tmp_pdfs/
+pdfs/
+processed_pdfs/
+__pycache__/
+grobid_client_python/

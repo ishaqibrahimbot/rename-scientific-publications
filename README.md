@@ -23,17 +23,17 @@ However, if you're using a version of Windows that does not support Docker, you 
 
 Clone the repo to a local directory by running the following line of code:
 
-'''
+```
 git clone https://github.com/ishaqibrahimbot/rename-scientific-publications.git
-'''
+```
 
 ### Use Docker Compose to start the services
 
 Go into the cloned directory using your terminal and after that, run the following command (make sure you have docker-compose installed):
 
-'''
+```
 sudo docker-compose up
-'''
+```
 
 You will notice log messages from two apps: the Flask app and the Grobid server (that this application uses for processing of pdf content).
 

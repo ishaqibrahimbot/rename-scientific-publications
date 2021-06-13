@@ -33,8 +33,16 @@
 	<form class="form-group" method="POST" action="/" enctype="multipart/form-data">
 		<input type="file" class="file-upload" name="file" multiple>
 		<input type="submit" class="btn" value="Upload">
+		<div class="form-check">
+  		<input class="form-check-input" type="checkbox" name="include-year" value="" id="flexCheckDefault">
+  		<label class="form-check-label" for="flexCheckDefault">
+    		Include year of publication (takes longer to process)
+  		</label>
+	</div>
+
 	</form>
 
+	
 	<h3>{{successMessage}}</h3>
 
 </body>

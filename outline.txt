@@ -60,3 +60,25 @@ In short, I need to start digging into "deploying multi-container apps to Elasti
 So while I read up on this, I should also work on fixing some of the problems listed above about the slow processing, and a new problem I saw: The pdf folder is not being emptied. Something ain't going right there and I need to figure that out.
 
 Also, I need to compromise the date information in favor of speed cause ain't nobody gonna wait for that long.
+
+<- Update on Jun 13 at 14:24 ->
+
+So here is the progress I've made:
+
+- Succeeded in mounting a modified config file into docker-compose to enable model preLoading. Some tests have shown that model preloading is infact a good strategy. Now currently I have this file in my local repo but it doesn't matter because if anyone else uses this they will have to clone the repo anyway.
+
+- Removed the year part and now the default method is to rename with just the title and not the year of publication. There is a checkbox in the frontend which someone can use if they also want the years, with a warning that it might take longer.
+
+- n=1 works best on my computer because of the severely limited processing capabilities.
+
+- There is a processDate API for grobid as well however the client only gives access to 3 services. I'm thinking of editing the code and trialling the processDate api. If it works out and works quickly, I can replace the current methodology where I use the processFullText to get the date and just combine the processHeader with process date. This is my next step right now.
+
+After testing this thing about the processDate API, I will move on to deployment using Kubernetes or Elastic Beanstalk (If I get the time today to do that).
+
+I also just realized another issue. The names of the files are getting mixed up. So two papers had the names of each other instead of their own. I need to figure out how this is happening and fix it. Probably by using a better way to locate the files.
+
+<- Update on Jun 13 at 16:29 ->
+
+So I checked the processDate API and it's just a simple service that takes in a 'raw string' in any format and gives it back in a specific and consistent format. So no I can't use this as the alternative. It will have to be "processHeaderDocument" for the name only and "processFulltextDocument" for the date as well.
+
+Now I'm going to go ahead and fix the problem about name mismatches. I've found a simple strategy for that. Just take each file from the pdfs folder, take away the .pdf at the end and replace it with .tei.xml (or is it the other way round?) and change the folder path from "pdfs" to "processed_pdfs". This will get exactly the right file. So yeah I'm gonna go play some cricket now and work on this at night. After that will probably think about kubernetes or elastic beanstalk.

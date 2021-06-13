@@ -2,6 +2,7 @@ import os, shutil
 import glob
 from flask import Flask, flash, request, redirect, url_for, render_template, send_from_directory, send_file
 from werkzeug.utils import secure_filename
+from werkzeug.datastructures import ImmutableMultiDict
 from zipfile import ZipFile
 import rename_pdf
 from rename_pdf import process_pdfs, get_title, rename_pdfs
@@ -37,6 +38,17 @@ def allowed_file(filename):
 def upload_file():
 	if request.method == 'POST':
 
+		#Reset folders
+		setup_folder(UPLOAD_FOLDER)
+		setup_folder(XML_FOLDER)
+
+		#Check if user wants to include year in the name of pdf as well
+		form_data = dict(request.form)
+		if "include-year" in form_data.keys():
+			include_year = True
+		else:
+			include_year = False
+
 		#Make sure files are uploaded
 		if 'file' not in request.files:
 			flash('No file part')
@@ -57,8 +69,8 @@ def upload_file():
 				file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename)) #Save the file
 
 		print("Made it till here!")
-		process_pdfs(UPLOAD_FOLDER) #Process the pdfs using Grobid
-		rename_pdfs(UPLOAD_FOLDER) #Rename by extracting the title and date from xml files
+		process_pdfs(UPLOAD_FOLDER, include_year) #Process the pdfs using Grobid
+		rename_pdfs(UPLOAD_FOLDER, include_year) #Rename by extracting the title and date from xml files
 		
 		processed_files = glob.glob(os.path.join(UPLOAD_FOLDER, "*.pdf"))
 

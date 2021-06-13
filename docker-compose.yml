@@ -7,13 +7,10 @@ services:
                 ports:
                         - "8070:8070"
                         - "8071:8071"
-                configs:
-                        - source: grobid-service-config
-                          target: /opt/grobid/grobid-service/config/config.yaml
+                volumes:
+                        - ./config.yaml:/opt/grobid/grobid-service/config/config.yaml
+
         app:
                 build: .
                 ports:
                         - "5000:5000"
-configs:
-        grobid-service-config:
-                file: ./config.yml

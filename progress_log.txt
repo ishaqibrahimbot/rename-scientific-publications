@@ -82,3 +82,13 @@ I also just realized another issue. The names of the files are getting mixed up.
 So I checked the processDate API and it's just a simple service that takes in a 'raw string' in any format and gives it back in a specific and consistent format. So no I can't use this as the alternative. It will have to be "processHeaderDocument" for the name only and "processFulltextDocument" for the date as well.
 
 Now I'm going to go ahead and fix the problem about name mismatches. I've found a simple strategy for that. Just take each file from the pdfs folder, take away the .pdf at the end and replace it with .tei.xml (or is it the other way round?) and change the folder path from "pdfs" to "processed_pdfs". This will get exactly the right file. So yeah I'm gonna go play some cricket now and work on this at night. After that will probably think about kubernetes or elastic beanstalk.
+
+<- Update on Jun 22 at 09:25 ->
+
+I never really got the time to work on the mismatch problem after the cricket because I had my TOEFL on this last weekend and a full-day picnic on Sunday. Because of all the fatigue, I was a complete wasteman on Monday and so here I am on a Tuesday morning, just putting in this update.
+
+So one thing I did actually do is make a docker image out of my app and push it to docker hub. I believe this is the container that will run the flask app with the grobid python client dependency. Now, along the way, I had this excellent idea:
+
+Why not just upload the lfoppiano/grobid image to Heroku, and then upload my Flask app to a separate Heroku URL and then have it communicate with the grobid-heroku app? That will at the very least make my app work and be accessible to most people. I could then figure out later how to do this with beanstalk.
+
+Another important point: I am going to write the entire backend again using Node.js, just for some practice. Initially I was going to write the Node.js client as well but turns out it's already there. So I'm just gonna rewrite the backend that includes getting files, processing them with grobid, extracting the title from the .tei.xml files, renaming the files, and sending them back in a zipped folder.

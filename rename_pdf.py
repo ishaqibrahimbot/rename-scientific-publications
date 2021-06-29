@@ -4,14 +4,28 @@ import glob
 import re
 from getYear import get_year
 from grobid_client.grobid_client import GrobidClient
+import argparse
 
-def process_pdfs(UPLOAD_FOLDER, include_year):
+def process_pdfs(UPLOAD_FOLDER, include_year, concurrency):
     client = GrobidClient(config_path="./grobid_client_python/config.json")
 
     if include_year:
-        client.process("processFulltextDocument", UPLOAD_FOLDER, output="processed_pdfs", consolidate_header=False, verbose=True, n=1)
+        client.process("processFulltextDocument", UPLOAD_FOLDER, output="processed_pdfs", consolidate_header=False, verbose=True, n=concurrency)
     else:
-        client.process("processHeaderDocument", UPLOAD_FOLDER, output="processed_pdfs", consolidate_header=False, verbose=True, n=1)
+        client.process("processHeaderDocument", UPLOAD_FOLDER, output="processed_pdfs", consolidate_header=False, verbose=True, n=concurrency)
+
+
+def get_xml_files(pdf_files):
+    xml_files = []
+
+    for file in pdf_files:
+        _, file_only = os.path.split(file)
+        new_file_path = os.path.join("processed_pdfs", file_only)
+        new_file_path = new_file_path[:-4] + ".tei.xml"
+        xml_files.append(new_file_path)
+
+    return xml_files
+
 
 def get_title(soup, pdfs_folder, include_year):
 
@@ -37,9 +51,8 @@ def rename_pdfs(UPLOAD_FOLDER, include_year):
 
     processed_pdfs_folder = "processed_pdfs"
     pdfs_folder = UPLOAD_FOLDER
-    xml_files = glob.glob(os.path.join(processed_pdfs_folder, "*.xml"))
     pdf_files = glob.glob(os.path.join(pdfs_folder, "*.pdf"))
-
+    xml_files = get_xml_files(pdf_files)
 
     allSoups = []
 
@@ -58,21 +71,35 @@ def rename_pdfs(UPLOAD_FOLDER, include_year):
         os.rename(pdf_files[i], new_titles[i]) 
 
 
-# Leave these two lines, do not remove them. Add these two to the grobid service definition
-# in the docker-compose.yaml file if you want to replace the config file in the container
-# # with a local (modified) config file
-# volumes:
-#         - ./config.yaml:/opt/grobid/grobid-service/config/config.yaml
+def main(pdf_folder, include_year, n):
+    process_pdfs(pdf_folder, include_year, n) #Process the pdfs using Grobid
+    rename_pdfs(pdf_folder, include_year) #Rename by extracting the title and date from xml files
 
+if __name__ == "__main__":
 
+    parser = argparse.ArgumentParser()
 
+    parser.add_argument(
+        "--pdf_folder",
+        default="pdfs",
+        type=str,
+        help="Specify the name of the folder containing the PDFs")
 
+    parser.add_argument(
+        "--include_year",
+        type=bool,
+        default=False,
+        help="Specify True or False depending on whether you want to include the year of publication in the filename as well. This will take a bit longer to process.")
 
+    parser.add_argument(
+        "--n",
+        type=int,
+        default=1,
+        help="Specify the number of concurrent requests you want to make in the range 1-10. Note that higher values will overload your CPU so make sure you have a blazing fast CPU with multiple cores to use high concurrency.")
 
+    args = parser.parse_args()
 
-
-
-
+    main(args.pdf_folder, args.include_year, args.n)
 
 
 

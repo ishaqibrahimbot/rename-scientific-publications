@@ -1,0 +1,7 @@
+Add these two to the grobid service definition in the docker-compose.yaml file if you want to replace the config file in the container with a local (modified) config file.
+volumes:
+        - ./config.yaml:/opt/grobid/grobid-service/config/config.yaml
+
+The indentation in docker-compose files is quite sensitive and important, so just make sure you're getting that right after pasting these two lines.
+
+

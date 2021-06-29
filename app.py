@@ -69,7 +69,7 @@ def upload_file():
 				file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename)) #Save the file
 
 		print("Made it till here!")
-		process_pdfs(UPLOAD_FOLDER, include_year) #Process the pdfs using Grobid
+		process_pdfs(UPLOAD_FOLDER, include_year, 1) #Process the pdfs using Grobid
 		rename_pdfs(UPLOAD_FOLDER, include_year) #Rename by extracting the title and date from xml files
 		
 		processed_files = glob.glob(os.path.join(UPLOAD_FOLDER, "*.pdf"))

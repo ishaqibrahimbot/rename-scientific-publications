@@ -92,3 +92,22 @@ So one thing I did actually do is make a docker image out of my app and push it 
 Why not just upload the lfoppiano/grobid image to Heroku, and then upload my Flask app to a separate Heroku URL and then have it communicate with the grobid-heroku app? That will at the very least make my app work and be accessible to most people. I could then figure out later how to do this with beanstalk.
 
 Another important point: I am going to write the entire backend again using Node.js, just for some practice. Initially I was going to write the Node.js client as well but turns out it's already there. So I'm just gonna rewrite the backend that includes getting files, processing them with grobid, extracting the title from the .tei.xml files, renaming the files, and sending them back in a zipped folder.
+
+<- Update on Jun 29 at 22:32 ->
+
+Soo, I keep on changing my plans every now and then. So I've decided to scrap two things: no longer deploying to heroku or elastic beanstalk, and no longer rewriting the backend using Node.js. As of now, my plan is to:
+
+- Fix the problems with the file renaming (solution is already brainstormed above)
+- Modify the script to make it a "script", i.e. that can be run on the command line without the frontend
+- Make a video of this happening for LinkedIn
+- Write a well thought-out LinkedIn post and POST THIS AND GET ON TO NEW THINGS.
+
+Okay let's start working and come back with the update at the end.
+
+<- Update on Jun 30 at 00:10 ->
+
+Alright so I've done the first 3 items from the list I made above. I've fixed the file renaming problem, I've made a script that runs blazingly fast on the command line, and I've taken a few before and after screenshots to use.
+
+As for the speed, I'm amazed. I guess going with a "web app" structure was misguided from the start. I took 10 pdfs with a total of >5MB and it completed the processing (without the year) in 2 minutes. What is more surprising is that it completed the processing for the same 10 pdfs WITH THE YEAR in 1 minute. So my note about it "taking more time" is actually false.
+
+Anyhow, I need to get some sleep now. I'm going to run a few more tests tomorrow night on this, update the README with the usage instructions and finally publish this. The script method is going to be the default way of running this. I might just also request some ML influencer to share this. Let's see what kind of reception (if any, lol) I get.

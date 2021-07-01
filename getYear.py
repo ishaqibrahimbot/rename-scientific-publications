@@ -1,3 +1,7 @@
+"""
+A simple function to extract a YYYY format date from the date string extracted by Grobid
+"""
+
 def get_year(date):
     date = date.split()
 

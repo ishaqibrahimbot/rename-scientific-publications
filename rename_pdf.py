@@ -7,6 +7,16 @@ from grobid_client.grobid_client import GrobidClient
 import argparse
 
 def process_pdfs(UPLOAD_FOLDER, include_year, concurrency):
+    """
+    Use grobid_client_python to send pdf files to the Grobid Server and save the *.tei.xml files 
+    returned inside the "processed_pdfs" folder.
+
+    Two modes:
+
+    - include_year=True -> adds the year of publication to the start of the name of each pdf
+    - include_year=False -> Does not do the above
+    """
+
     client = GrobidClient(config_path="./grobid_client_python/config.json")
 
     if include_year:
@@ -16,6 +26,10 @@ def process_pdfs(UPLOAD_FOLDER, include_year, concurrency):
 
 
 def get_xml_files(pdf_files):
+    """
+    Get the list of corresponding .tei.xml files for each pdf file, once Grobid has completed its
+    processing.
+    """
     xml_files = []
 
     for file in pdf_files:
@@ -28,14 +42,19 @@ def get_xml_files(pdf_files):
 
 
 def get_title(soup, pdfs_folder, include_year):
+    """
+    Get a standardized title from the object returned by BeautifulSoup
+    """
 
     title = soup.title.getText()
-    title = re.sub("[^a-zA-Z ]+", " ", title)
+    title = re.sub("[^a-zA-Z ]+", " ", title) #Remove any characters other than letters
 
     if len(title) > 40:
-        title = title[:40]
+        title = title[:40] #Just take the first 40 characters of the title for the new name of the pdf
 
-    if include_year:
+
+    # Depending on the value of include_year, either add the YoP to the name or not
+    if include_year: 
         date = get_year(soup.date.getText())
         if date is not None:
             new_title = os.path.join(pdfs_folder, "(" + date + ")" + " " + title +  ".pdf")
@@ -48,6 +67,10 @@ def get_title(soup, pdfs_folder, include_year):
 
 
 def rename_pdfs(UPLOAD_FOLDER, include_year):
+    """
+    Grab all the .tei.xml files, run them through BeautifulSoup to get the new file name, and rename
+    each pdf file.
+    """
 
     processed_pdfs_folder = "processed_pdfs"
     pdfs_folder = UPLOAD_FOLDER
@@ -72,8 +95,14 @@ def rename_pdfs(UPLOAD_FOLDER, include_year):
 
 
 def main(pdf_folder, include_year, n):
+
+    # Make the "processed_pdfs" folder if it doesn't already exist
+    if not os.path.exists("processed_pdfs"):
+        os.mkdir("processed_pdfs")
+
     process_pdfs(pdf_folder, include_year, n) #Process the pdfs using Grobid
     rename_pdfs(pdf_folder, include_year) #Rename by extracting the title and date from xml files
+
 
 if __name__ == "__main__":
 
